@@ -1,0 +1,25 @@
+{
+    "name": "terabin/sitemap",
+    "description": "Create custom page with Flarum",
+    "type": "flarum-extension",
+    "keywords": ["static", "page"],
+    "license": "MIT",
+    "require": {
+        "flarum/core": "^0.1.0-beta.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Terabin\\Sitemap\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Sitemap",
+            "icon": {
+                "name": "file-text-o",
+                "backgroundColor": "#4C49A2",
+                "color": "#fff"
+            }
+        }
+    }
+}
