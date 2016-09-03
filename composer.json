@@ -2,7 +2,7 @@
     "name": "terabin/flarum-ext-sitemap",
     "description": "Generate a Sitemap for Flarum automatically",
     "type": "flarum-extension",
-    "keywords": ["static", "page"],
+    "keywords": ["sitemap", "generator"],
     "license": "MIT",
     "authors": [
         {
