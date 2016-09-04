@@ -35,11 +35,6 @@ class GenerateSitemap
       // Get all discussions
       $users = User::all();
 
-      //Get all pages
-      $pages = Page::all();
-
-      // Get all tags
-      $tags = Tag::all();
 
       //Add home
       $sitemap->addItem('http://' . $_SERVER['HTTP_HOST'], time(), Sitemap::DAILY, 0.9);
@@ -50,16 +45,26 @@ class GenerateSitemap
          $sitemap->addItem('http://' . $_SERVER['HTTP_HOST'] . '/u/' . $user->username, time(), Sitemap::DAILY, 0.5);
       }
 
-      //Add tags
-      foreach ($tags as $tag)
-      {
-         $sitemap->addItem('http://' . $_SERVER['HTTP_HOST'] . '/t/' . $tag->slug, time(), Sitemap::DAILY, 0.9);
+      //Get all tags
+      if (class_exists('Tag')){
+        $tags = Tag::all();
+
+        //Add tags
+        foreach ($tags as $tag)
+        {
+           $sitemap->addItem('http://' . $_SERVER['HTTP_HOST'] . '/t/' . $tag->slug, time(), Sitemap::DAILY, 0.9);
+        }
       }
 
-      //Add pages
-      foreach ($pages as $page)
-      {
-         $sitemap->addItem('http://' . $_SERVER['HTTP_HOST'] . '/p/' . $page->id . '-' . $page->slug, time(), Sitemap::DAILY, 0.5);
+      //Get all pages
+      if (class_exists('Page')){
+        $pages = Page::all();
+
+        //Add pages
+        foreach ($pages as $page)
+        {
+           $sitemap->addItem('http://' . $_SERVER['HTTP_HOST'] . '/p/' . $page->id . '-' . $page->slug, time(), Sitemap::DAILY, 0.5);
+        }
       }
 
       // Add discussions
