@@ -32,7 +32,7 @@ class GenerateSitemap
       // Get all discussions
       $discussions = Discussion::all();
 
-      // Get all discussions
+      // Get all users
       $users = User::all();
 
 
