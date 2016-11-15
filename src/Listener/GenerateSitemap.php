@@ -42,8 +42,11 @@ class GenerateSitemap
         // Get url
         $url = $this->app->url();
 
+        // Get basePath
+        $basePath = $this->app->basePath();
+
         // Create sitemap
-        $sitemap = new Sitemap(__DIR__.'/../../../../../sitemap.xml');
+        $sitemap = new Sitemap($basePath.'/sitemap.xml');
 
         // Get all discussions
         $discussions = Discussion::all();
