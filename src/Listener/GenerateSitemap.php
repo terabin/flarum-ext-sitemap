@@ -62,7 +62,7 @@ class GenerateSitemap
         }
 
         // Get all tags
-        if (class_exists('Tag')) {
+        if (class_exists(Tag::class)) {
             $tags = Tag::all();
 
             // Add tags
@@ -72,7 +72,7 @@ class GenerateSitemap
         }
 
         // Get all pages
-        if (class_exists('Page')) {
+        if (class_exists(Page::class)) {
             $pages = Page::all();
 
             //Add pages
