@@ -10,7 +10,6 @@ use Flarum\Core\User;
 use Flarum\Tags\Tag;
 use Flarum\Foundation\Application;
 use samdark\sitemap\Sitemap;
-use samdark\sitemap\Index;
 use Sijad\Pages\Page;
 
 class GenerateSitemap
