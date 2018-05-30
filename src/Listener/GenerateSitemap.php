@@ -2,6 +2,8 @@
 
 namespace Terabin\Sitemap\Listener;
 
+use Flarum\Event\DiscussionWasHidden;
+use Flarum\Event\DiscussionWasRestored;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Event\DiscussionWasStarted;
 use Flarum\Event\DiscussionWasDeleted;
@@ -30,6 +32,8 @@ class GenerateSitemap
     public function subscribe(Dispatcher $events)
     {
         $events->listen(DiscussionWasStarted::class, [$this, 'UpdateSitemap']);
+        $events->listen(DiscussionWasRestored::class, [$this, 'UpdateSitemap']);
+        $events->listen(DiscussionWasHidden::class, [$this, 'UpdateSitemap']);
         $events->listen(DiscussionWasDeleted::class, [$this, 'UpdateSitemap']);
     }
 
