@@ -2,6 +2,7 @@
 
 namespace Terabin\Sitemap\Listener;
 
+use Flarum\Core\Guest;
 use Flarum\Event\DiscussionWasHidden;
 use Flarum\Event\DiscussionWasRestored;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -52,10 +53,10 @@ class GenerateSitemap
         $sitemap = new Sitemap($basePath.'/sitemap.xml');
 
         // Get all discussions
-        $discussions = Discussion::all();
+        $discussions = Discussion::whereVisibleTo(new Guest())->get();
 
         // Get all users
-        $users = User::all();
+        $users = User::whereVisibleTo(new Guest())->get();
 
         // Add home
         $sitemap->addItem($url, time(), Sitemap::DAILY, 0.9);
@@ -67,7 +68,7 @@ class GenerateSitemap
 
         // Get all tags
         if (class_exists(Tag::class)) {
-            $tags = Tag::all();
+            $tags = Tag::whereVisibleTo(new Guest())->get();
 
             // Add tags
             foreach ($tags as $tag) {
