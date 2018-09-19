@@ -2,6 +2,9 @@
 
 namespace Terabin\Sitemap\Listener;
 
+use Flarum\Core\Guest;
+use Flarum\Event\DiscussionWasHidden;
+use Flarum\Event\DiscussionWasRestored;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Event\DiscussionWasStarted;
 use Flarum\Event\DiscussionWasDeleted;
@@ -10,7 +13,6 @@ use Flarum\Core\User;
 use Flarum\Tags\Tag;
 use Flarum\Foundation\Application;
 use samdark\sitemap\Sitemap;
-use samdark\sitemap\Index;
 use Sijad\Pages\Page;
 
 class GenerateSitemap
@@ -31,6 +33,8 @@ class GenerateSitemap
     public function subscribe(Dispatcher $events)
     {
         $events->listen(DiscussionWasStarted::class, [$this, 'UpdateSitemap']);
+        $events->listen(DiscussionWasRestored::class, [$this, 'UpdateSitemap']);
+        $events->listen(DiscussionWasHidden::class, [$this, 'UpdateSitemap']);
         $events->listen(DiscussionWasDeleted::class, [$this, 'UpdateSitemap']);
     }
 
@@ -49,10 +53,10 @@ class GenerateSitemap
         $sitemap = new Sitemap($basePath.'/sitemap.xml');
 
         // Get all discussions
-        $discussions = Discussion::all();
+        $discussions = Discussion::whereVisibleTo(new Guest())->get();
 
         // Get all users
-        $users = User::all();
+        $users = User::whereVisibleTo(new Guest())->get();
 
         // Add home
         $sitemap->addItem($url, time(), Sitemap::DAILY, 0.9);
@@ -63,8 +67,8 @@ class GenerateSitemap
         }
 
         // Get all tags
-        if (class_exists('Tag')) {
-            $tags = Tag::all();
+        if (class_exists(Tag::class)) {
+            $tags = Tag::whereVisibleTo(new Guest())->get();
 
             // Add tags
             foreach ($tags as $tag) {
@@ -73,7 +77,7 @@ class GenerateSitemap
         }
 
         // Get all pages
-        if (class_exists('Page')) {
+        if (class_exists(Page::class)) {
             $pages = Page::all();
 
             //Add pages
